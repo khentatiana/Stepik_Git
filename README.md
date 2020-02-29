@@ -195,4 +195,165 @@ HEAD        ORIG_HEAD   description index       logs        refs
 ВЫПОЛНИТЕ:
 git hist --max-count=1
 
+Вывод последнего коммита
+С помощью SHA1 хэша из коммита, указанного выше…
+
+ВЫПОЛНИТЕ:
+git cat-file -t <hash>
+git cat-file -p <hash>
+Вот что выходит у меня…
+
+РЕЗУЛЬТАТ:
+$ git cat-file -t 8029c07
+commit
+$ git cat-file -p 8029c07
+tree 096b74c56bfc6b40e754fc0725b8c70b2038b91e
+parent 567948ac55daa723807c0c16e34c76797efbcbed
+author Alexander Shvets <alex@githowto.com> 1299684476 -0500
+committer Alexander Shvets <alex@githowto.com> 1299684476 -0500
+
+Added index.html.
+
+Вывод последнего коммита
+С помощью SHA1 хэша из коммита, указанного выше…
+
+ВЫПОЛНИТЕ:
+git cat-file -t <hash>
+git cat-file -p <hash>
+Вот что выходит у меня…
+
+РЕЗУЛЬТАТ:
+$ git cat-file -t 8029c07
+commit
+$ git cat-file -p 8029c07
+tree 096b74c56bfc6b40e754fc0725b8c70b2038b91e
+parent 567948ac55daa723807c0c16e34c76797efbcbed
+author Alexander Shvets <alex@githowto.com> 1299684476 -0500
+committer Alexander Shvets <alex@githowto.com> 1299684476 -0500
+
+Added index.html.
+
+---------Создайте ветку
+Давайте назовем нашу новую ветку «style».
+
+ВЫПОЛНИТЕ:
+git checkout -b style
+git status
+Примечание: git checkout -b <имяветки> является шорткатом для git branch <имяветки> за которым идет git checkout <имяветки>.
+
+Обратите внимание, что команда git status сообщает о том, что вы находитесь в ветке «style».
+
+git hist --all >> history.txt
+vim history.txt
+РЕЗУЛЬТАТ:
+* ef41af8 2020-02-28 | Updated index.html (HEAD -> style) [Tatiana]
+* 06eb673 2020-02-28 | Added css stylesheet [Tatiana]
+* 942e8f7 2020-02-28 | Added index.html. [Tatiana]
+* 47efc35 2020-02-28 | Moved hello.html to lib [Tatiana]
+* b11a2f4 2020-02-28 | Add an author/email/phone_number comments [Tatiana]
+* 7fef4e0 2020-02-28 | Add an author comment [Tatiana]
+* 447fff5 2020-02-28 | Added h2 to hello.html (tag: v1, master) [Tatiana]
+* 8739bc7 2020-02-28 | Added HTML header (tag: v1-beta) [Tatiana]
+* dd308b2 2020-02-28 | Added standard HTML page tags [Tatiana]
+* 612b4a9 2020-02-28 | commit of c.html file [Tatiana]
+* 22ebb5b 2020-02-28 | commit of changed hello.html [Tatiana]
+* 3b11e75 2020-02-28 | commit of a and b files [Tatiana]
+* c702a1e 2020-02-28 | 1st commit [Tatiana]
+
+
+
+Давайте назовем нашу новую ветку «style».
+
+ВЫПОЛНИТЕ:
+git checkout -b style
+git status
+Примечание: git checkout -b <имяветки> является шорткатом для git branch <имяветки> за которым идет git checkout <имяветки>.
+
+Обратите внимание, что команда git status сообщает о том, что вы находитесь в ветке «style».
+
+
+39. Что такое origin
+
+Мы видим, что клонированный репозиторий знает об имени по умолчанию удаленного репозитория. Давайте посмотрим, можем ли мы получить более подробную информацию об имени по умолчанию:
+
+ВЫПОЛНИТЕ:
+git remote show origin
+РЕЗУЛЬТАТ:
+$ git remote show origin
+* remote origin
+  Fetch URL: /Users/alex/Documents/Presentations/githowto/auto/hello
+  Push  URL: /Users/alex/Documents/Presentations/githowto/auto/hello
+  HEAD branch (remote HEAD is ambiguous, may be one of the following):
+    style
+    master
+  Remote branches:
+    style  tracked
+    master tracked
+  Local branch configured for 'git pull':
+    master merges with remote master
+  Local ref configured for 'git push':
+    master pushes to master (up to date)
+
+
+Список удаленных веток
+Для того, чтобы увидеть все ветки, попробуйте следующую команду:
+
+ВЫПОЛНИТЕ:
+git branch -a
+РЕЗУЛЬТАТ:
+$ git branch -a
+* master
+  remotes/origin/HEAD -> origin/master
+  remotes/origin/style
+  remotes/origin/master
+Git выводит все коммиты в оригинальный репозиторий, но ветки в удаленном репозитории не рассматриваются как локальные. Если мы хотим иметь собственную ветку style, мы должны сами ее создать. Через минуту вы увидите, как это делается.
+
+44. Извлечение и слияние изменений
+команда git pull эквивалентна комбинации git fetch и git merge.
+git pull
+действительно эквивалентно двум следующим шагам:
+
+git fetch
+git merge origin/master
+
+49. Извлечение общих изменений
+Быстро переключитесь в клонированный репозиторий и извлеките изменения, только что отправленные в общий репозиторий.
+
+ВЫПОЛНИТЕ:
+cd ../cloned_hello
+Примечание: Сейчас мы находимся в репозитории cloned_hello.
+
+Продолжите с…
+
+ВЫПОЛНИТЕ:
+git remote add shared ../hello.git
+git branch --track shared master
+git pull shared master
+cat README
+
+
+50. Размещение ваших git репозиториев
+
+Цели
+Научиться настраивать git сервер для совместного использования репозиториев.
+Есть много способов расшаривать git репозитории по сети. Вот быстрый способ.
+
+01Запуск git сервера
+ВЫПОЛНИТЕ:
+# (From the work directory)
+git daemon --verbose --export-all --base-path=.
+Теперь в отдельном окне терминала перейдите в ваш рабочий каталог
+
+ВЫПОЛНИТЕ:
+# (From the work directory)
+git clone git://localhost/hello.git network_hello
+cd network_hello
+ls
+Вы увидите копию проекта hello.
+
+02Отправка в Git Daemon
+Если вы хотите разрешить отправку (push) в репозиторий Git Daemon, добавьте метку --enable=receive-pack к команде git daemon. Будьте осторожны, этот сервер не производит аутентификацию, поэтому любой сможет отправлять изменения в ваш репозиторий.
+
+
+
 
